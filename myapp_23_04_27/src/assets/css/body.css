@@ -1,0 +1,10 @@
+/* MovieList */
+
+.img_box {
+  float: left;
+}
+
+.img_box img {
+  border-radius: 3%;
+  height: 350px;
+}

@@ -1,0 +1,85 @@
+.banner-container {
+  position: relative;
+  overflow: hidden;
+  height: 400px;
+  background-color: #f8f9fa; /* Set the background color to match your website background */
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/img/5LWF3lOtEZ08JPGFH3kc1g.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px);
+  z-index: 1;
+}
+
+.banner-image {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  -webkit-mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, transparent);
+  mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, transparent);
+}
+
+
+/* 포스터 이미지 css */
+.movie-poster-wrapper {
+  position: relative;
+  width: 100%;
+  /* height: 100%; */
+  padding-bottom: 140%;
+  overflow: hidden;
+}
+
+.movie-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* 컨텐츠 내용 */
+.movie-basic h2 {
+  font-weight: bold;
+}
+
+h3 {
+  font-weight: bold !important;
+  padding-bottom: 10px;
+}
+
+.movie-basic div {
+  padding: 5px; /* Adjust the padding values as needed */
+}
+
+
+/* 코멘트 내용 */
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  padding: auto;
+}
+
+.user-comment {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-box {
+  background-color: #f8f9fa; /* You can adjust the color to match the gray you want */
+  border-radius: 5px;
+}
+
