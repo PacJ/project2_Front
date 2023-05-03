@@ -8,13 +8,13 @@ from collections import defaultdict
 from sklearn.metrics.pairwise import linear_kernel
 from flask import Flask, request
 
-Okt = Okt
+# Okt = Okt
 
 app = Flask(__name__)
 
 @app.route('/recommend')
 def recommend_movie():
-    movie_id = request.args.get('movie_id', type=int)
+    movie_id = request.args.get('MOVE_ID', type=int)
 #-----------------------------------------
     # 데이터베이스 연결 정보
     conn = cx_Oracle.connect('pjw/a1234@localhost:1521/xe')
@@ -29,10 +29,11 @@ def recommend_movie():
     # SQL 쿼리 실행
     cursor = conn.cursor()
     cursor.execute('SELECT MOVIE_ID, TITLE, OVERVIEW FROM movie ORDER BY MOVIE_ID')
-
+    print(cursor.description)
     # 데이터프레임으로 변환
     col_names = [row[0] for row in cursor.description]
     movieList = pd.DataFrame(cursor.fetchall(), columns=col_names)
+    print(movieList)
 
     # 연결 종료
     cursor.close()
@@ -75,8 +76,8 @@ def recommend_movie():
     #  - 데이터프레임 데이터 변경(형태소분리)
     for i in range(len(movieList)):
         movieList.loc[i, 'OVERVIEW'] = remove_stopwords(preprocessing(okt_clean(movieList['OVERVIEW'][i])))
-
-#------------------------------------------
+        print(movieList.loc[i])
+#-----------------------------------$ FLASK_APP=<filename>.py FLASK_ENV=development flask run"
     #상관관계 분석
     #객체생성
     tfidf = TfidfVectorizer() 
