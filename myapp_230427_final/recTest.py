@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/recommend')
 def recommend_movie():
-    movie_id = request.args.get('MOVE_ID', type=int)
+    movie_id = request.args.get('MOVIE_ID', type=int)
 #-----------------------------------------
     # 데이터베이스 연결 정보
     conn = cx_Oracle.connect('pjw/a1234@localhost:1521/xe')
