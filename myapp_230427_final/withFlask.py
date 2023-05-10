@@ -117,6 +117,5 @@ def recommend_movie():
         return movieList['MOVIE_ID'].iloc[movie_indices].tolist()
     
     return get_recommendations(movie_id)
-
 if __name__ == '__main__':
     app.run(debug=True)

@@ -28,7 +28,7 @@ export default function ComboBox({ onQueryChange }) {
         const names = response.data;
         //가져온 String들을 키워드로 set한다.
         setAllKeywords(names);
-        console.log(names);
+        // console.log(names);
       })
       .catch((error) => {
         console.log(error);

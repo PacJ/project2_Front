@@ -19,6 +19,7 @@ const CastMovies = ({ castMovieList }) => {
       setPosition(position - imgWidth);
     }
   };
+
   return (
     <div className="container">
       {castMovieList.length > 0 ? (
