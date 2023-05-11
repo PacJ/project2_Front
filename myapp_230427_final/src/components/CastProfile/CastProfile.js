@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Autocomplete } from "@mui/material";
 import ComboBox from "components/Common/AutoComplete";
+import { error } from "jquery";
 
 const CastProfile = () => {
   const config = {
@@ -29,29 +30,39 @@ const CastProfile = () => {
   //감독이 감독한 영화
   const [dirMovieList, setDirMovieList] = useState([]);
 
+  //요청한 페이지를 찾을 수 없습니다.
+  const [errorMessage, setErrorMessage] = useState("");
+
   const getMovies = async () => {
     await axios
       //profileType: 요청 페이지가 actorProfile || directorProfile인지 받는다.
       .get(`http://localhost:8090/${profileType}/${id}`, config)
       .then((response) => {
-        // 요청 profileType이 배우면 배우state(출연한 영화)를 set한다.
-        if (profileType === "actorProfile") {
-          setCastMovieList(response.data.castMovieList);
+        console.log(response.data == null ? response.data : "널값입니다.");
+        if (response.data != null) {
+          // 요청 profileType이 배우면 배우state(출연한 영화)를 set한다.
+          if (profileType === "actorProfile") {
+            setCastMovieList(response.data.castMovieList);
 
-          //요청 배우 인물(사진, 이름)을 담은 castInfo state을 한다.
-          setCastInfo({
-            name: response.data.actorInfo.name,
-            profile_path: response.data.actorInfo.profile_path,
-          });
+            //요청 배우 인물(사진, 이름)을 담은 castInfo state을 한다.
+            setCastInfo({
+              name: response.data.actorInfo.name,
+              profile_path: response.data.actorInfo.profile_path,
+            });
+          } else if (profileType === "dirProfile") {
+            // 요청 profileType이 감독이면 감독state(감독한 영화)를 set한다.
+            setDirMovieList(response.data.dirMovieList);
+
+            //요청 감독 인물(사진, 이름)을 담은 castInfo state을 set한다.
+            setCastInfo({
+              name: response.data.dirInfo.name,
+              profile_path: response.data.dirInfo.profile_path,
+            });
+          } else if (profileType === "profile") {
+            window.location.replace(`/profile/${id}`);
+          }
         } else {
-          // 요청 profileType이 감독이면 감독state(감독한 영화)를 set한다.
-          setDirMovieList(response.data.dirMovieList);
-
-          //요청 감독 인물(사진, 이름)을 담은 castInfo state을 set한다.
-          setCastInfo({
-            name: response.data.dirInfo.name,
-            profile_path: response.data.dirInfo.profile_path,
-          });
+          setErrorMessage("요청하신 배우/감독 정보를 찾을 수 없습니다.");
         }
       });
   };
@@ -62,38 +73,47 @@ const CastProfile = () => {
 
   return (
     <div className="container">
-      {/* 인물 사진 존재의 유/무에 따른 사진 출력 */}
-      {castInfo && castInfo.profile_path ? (
-        <div>
-          <h4 className="images-title" style={{ marginTop: "100px" }}>
-            {castInfo.name}
-          </h4>
-          <img
-            style={{ width: "180px", height: "270px" }}
-            className="img-circle img-no-padding img-responsive"
-            src={`https://image.tmdb.org/t/p/original/${castInfo.profile_path}`}
-            alt="배우/감독 사진"
-          />
-          {/* <p className="text-center">{castInfo.name}</p> */}
-        </div>
+      {errorMessage != "" ? (
+        <p style={{ fontSize: "25px", padding: "10px", fontWeight: "bold" }}>
+          {errorMessage}
+        </p>
       ) : (
-        <div>
-          <h4 className="images-title" style={{ marginTop: "100px" }}>
-            {castInfo.name}
-          </h4>
-          <img
-            style={{ width: "180px", height: "270px" }}
-            className="img-circle img-no-padding img-responsive"
-            //인물 사진이 없을 시 기본 사진 경로("public\pepeAk.png")
-            src="\pepeAk.png"
-            alt="배우/감독 사진이 없습니다."
-          />
-          {/* <p className="text-center">{castInfo.name}</p> */}
-        </div>
-      )}
+        <>
+          {castInfo && castInfo.profile_path ? (
+            <div>
+              <h4 className="images-title" style={{ marginTop: "100px" }}>
+                {castInfo.name}
+              </h4>
+              <img
+                style={{ width: "180px", height: "270px" }}
+                className="img-circle img-no-padding img-responsive"
+                src={`https://image.tmdb.org/t/p/original/${castInfo.profile_path}`}
+                alt="배우/감독 사진"
+              />
+              {/* <p className="text-center">{castInfo.name}</p> */}
+            </div>
+          ) : (
+            <div>
+              <h4 className="images-title" style={{ marginTop: "100px" }}>
+                {castInfo.name}
+              </h4>
+              <img
+                style={{ width: "180px", height: "270px" }}
+                className="img-circle img-no-padding img-responsive"
+                //인물 사진이 없을 시 기본 사진 경로("public\pepeAk.png")
+                src="\pepeAk.png"
+                alt="배우/감독 사진이 없습니다."
+              />
+              {/* <p className="text-center">{castInfo.name}</p> */}
+            </div>
+          )}
 
-      {castMovieList && <CastMovies castMovieList={castMovieList} />}
-      {dirMovieList && <DirMovies dirMovieList={dirMovieList} />}
+          {/* 인물 사진 존재의 유/무에 따른 사진 출력 */}
+
+          {castMovieList && <CastMovies castMovieList={castMovieList} />}
+          {dirMovieList && <DirMovies dirMovieList={dirMovieList} />}
+        </>
+      )}
     </div>
   );
 };

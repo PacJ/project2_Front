@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'reactstrap';
 
 const ProfileHeader = () => {
+  const member_id = localStorage.getItem('member_id');
+
   return (
     <>
       <div
@@ -78,13 +80,13 @@ const ProfileHeader = () => {
             }}
           >
             <Button className='btn-round bg-dark' type='button' href='/review'>
-            <FontAwesomeIcon icon={faHeart} />
+              <FontAwesomeIcon icon={faHeart} />
               평가하기
             </Button>
             <Button
               className='btn-round bg-dark'
               type='button'
-              href='/analysis'
+              href={`/analysis/${member_id}`}
               style={{ margin: '0px 20px' }}
             >
               <FontAwesomeIcon icon={faHeart} />

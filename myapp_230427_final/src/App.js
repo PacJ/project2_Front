@@ -41,7 +41,7 @@ function App() {
         />
         <Route
           path="/profile"
-          element={<PrivateRoute isAuth={true} RouteComponent={ProfilePage} />}
+          element={<PrivateRoute isAuth={false} RouteComponent={ProfilePage} />}
         />
         <Route
           path="/genreselect"

@@ -89,13 +89,13 @@ def recommend_movie():
     cosine_sim = linear_kernel(tfidf_matrix,tfidf_matrix)
 
 
-    #isbn의 인덱스 값을 가져오기
+    #movie_id 인덱스 값을 가져오기
     indices = pd.Series(movieList.index, index = movieList['OVERVIEW'])
 
-    #isbn을 입력하면 코사인 유사도를 통해 가장 유사도가 높은 상위 20개의 도서 목록 반환
+    #movie_id를 입력하면 코사인 유사도를 통해 가장 유사도가 높은 상위 20개의 도서 목록 반환
     def get_recommendations(movie_id, cosine_sim=cosine_sim) :
 
-        #isbn을 이용해 전체 데이터에서 해당 도서의 index값 찾기
+        #movie_id 이용해 전체 데이터에서 해당 도서의 index값 찾기
         idx = indices[movie_id] 
         print(idx)
         if idx >= len(indices):
