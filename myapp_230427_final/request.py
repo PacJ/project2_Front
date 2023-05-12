@@ -320,6 +320,7 @@ def recommend(user_id, array):
 @app.route('/recommend')
 def recommend_movie():
     movie_id = request.args.get('MOVIE_ID', type=int)
+    print(movie_id)
 # -----------------------------------------
     # 데이터베이스 연결 정보
     conn = cx_Oracle.connect('pjw/a1234@localhost:1521/xe')
@@ -334,22 +335,24 @@ def recommend_movie():
     # SQL 쿼리 실행
     cursor = conn.cursor()
     cursor.execute(
-        'SELECT MOVIE_ID, TITLE, OVERVIEW FROM MOVIE WHERE ROWNUM <= 2000 ORDER BY POPULARITY DESC')
+        'SELECT MOVIE_ID, TITLE, OVERVIEW FROM (SELECT MOVIE_ID, TITLE, OVERVIEW, POPULARITY FROM MOVIE ORDER BY POPULARITY DESC) WHERE ROWNUM <= 2000')
     # print(cursor.description)
+
+    # 마지막으로 후기 남긴 영화(movie_id)
+    cursor2 = conn.cursor()
+    cursor2.execute('SELECT MOVIE_ID, TITLE, OVERVIEW FROM MOVIE WHERE MOVIE_ID = :movie_id', movie_id=movie_id)
 
     # 데이터프레임으로 변환
     col_names = [row[0] for row in cursor.description]
     movieList = pd.DataFrame(cursor.fetchall(), columns=col_names)
-    # print(movieList)
+    lastMovie = pd.DataFrame(cursor2.fetchall(), columns=col_names)
+    print(lastMovie)
 
     # 연결 종료
     cursor.close()
     conn.close()
 
-    # 데이터전처리 작업 (null, 중복값 삭제 후 인덱스 재설정)
     movieList = movieList.dropna()
-    # movieList = movieList.drop_duplicates(['title'], keep = 'first')
-    movieList = movieList.reset_index(drop=True)
 
 # -------------------------------------------
     # 정규표현식
@@ -385,42 +388,35 @@ def recommend_movie():
             preprocessing(okt_clean(movieList['OVERVIEW'][i])))
         # print(movieList.loc[i])
 # -----------------------------------$ FLASK_APP=<filename>.py FLASK_ENV=development flask run"
+    lastMovie.loc[0, 'OVERVIEW'] = remove_stopwords(preprocessing(okt_clean(lastMovie['OVERVIEW'][0])))
     # 상관관계 분석
     # 객체생성
     tfidf = TfidfVectorizer()
-    tfidf_matrix = tfidf.fit_transform(movieList['OVERVIEW'])
+    tfidf_matrix = tfidf.fit_transform(pd.concat([movieList['OVERVIEW'], lastMovie['OVERVIEW']]))
 
     # 코사인유사도 linear_kernel(x축, y축)
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-    # isbn의 인덱스 값을 가져오기
-    indices = pd.Series(movieList.index, index=movieList['OVERVIEW'])
+    idx = len(movieList)
+    # movie_id를 입력하면 코사인 유사도를 통해 가장 유사도가 높은 상위 20개의 영화 목록 반환
+    def get_recommendations(cosine_sim=cosine_sim):
 
-    # isbn을 입력하면 코사인 유사도를 통해 가장 유사도가 높은 상위 20개의 도서 목록 반환
-    def get_recommendations(movie_id, cosine_sim=cosine_sim):
-
-        # isbn을 이용해 전체 데이터에서 해당 도서의 index값 찾기
-        idx = indices[movie_id]
-        print(idx)
-        if idx >= len(indices):
-            return 'Movie Id not Found in database'
-        print("get_recommendations 호출")
         # 코사인 유사도 매트릭스(cosine_sim)에서 idx에 해당하는 데이터를 (idx,유사도) 형태로 출력
         sim_scores = list(enumerate(cosine_sim[idx]))
 
         # 유사도 내림차순 정렬
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-        # 검색도서 제외 5개의 추천 도서 슬라이싱
+        # 검색영화 제외 5개의 추천 영화 슬라이싱
         sim_scores = sim_scores[1:11]
 
-        # 추천 도서 목록 10개의 인덱스 정보 추출
+        # 추천 영화 목록 10개의 인덱스 정보 추출
         movie_indices = [i[0] for i in sim_scores]
 
         # 인덱스를 이용해 영화 ID추출 (list로 변환)
-        return movieList['MOVIE_ID'].iloc[movie_indices].tolist()
+        return movieList['MOVIE_ID'].iloc[[i for i in movie_indices if i < len(movieList)]].tolist()
 
-    return get_recommendations(movie_id)
+    return get_recommendations()
 
 
 if __name__ == '__main__':

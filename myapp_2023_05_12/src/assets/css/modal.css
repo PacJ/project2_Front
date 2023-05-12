@@ -1,0 +1,276 @@
+/* Authmodal */
+.AuthModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.AuthOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+.AuthModal .login-button,
+.AuthModal .register-button {
+  width: 90%;
+  color: white;
+  border: 0;
+  margin-bottom: 10px;
+}
+
+
+/* 경고창 모달 */
+.AlertModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  padding: 30px 50px;
+  max-width: 80%;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 1.2em;
+}
+
+.AlertOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+/* 영화 상세 정보 모달 */
+.MovieDetailModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  padding: 10px;
+  width: 350px;
+  max-width: 80%;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.MovieDetailOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  overflow-y: auto;
+  overflow-x: hidden;
+  outline: 0;
+}
+
+
+/* 코멘트 모달 */
+.CommentModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  width: 500px;
+  max-width: 80%;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.CommentOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  outline: 0;
+}
+
+.form-check-input {
+  display: none;
+}
+
+.form-check-label {
+  padding-left: 10px;
+  position: relative;
+  cursor: pointer;
+  color: gray;
+  padding-left: 30px !important;
+}
+
+.form-check-input:checked + .form-check-label {
+  color: #E75757;
+}
+
+
+/* 이미지 슬라이드 모달 */
+.FullScreenModal .full-screen-modal-content {
+  height: 80%;
+  border: 0;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.FullScreenModal .full-screen-modal-content img {
+  width: 1200px;
+  border-radius: 10px;
+  
+}
+
+.FullScreenModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+
+.full-screen-modal-content .prev_button,
+.full-screen-modal-content .next_button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+}
+
+.full-screen-modal-content .prev_button {
+  left: 0;
+}
+
+.full-screen-modal-content .next_button {
+  right: 0;
+}
+
+.full-screen-modal-content .prev_button img,
+.full-screen-modal-content .next_button img {
+  width: 50px;
+}
+
+
+
+.DeleteModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  padding: 10px;
+  width: 350px;
+  max-width: 80%;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.DeleteOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+/* 회원 정보 수정 모달 */
+.EditModal,
+.EditImgModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  width: 500px;
+  max-width: 80%;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px 20px;
+}
+
+.EditOverlay,
+.EditImgOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  outline: 0;
+}
+
+/* NoFavoriteModal */
+.NoFavoriteModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  width: 500px;
+  max-width: 80%;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.NoFavoriteOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  outline: 0;
+}

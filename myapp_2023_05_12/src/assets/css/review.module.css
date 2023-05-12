@@ -1,0 +1,135 @@
+.wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.screen {
+  width: 550px;
+  padding: 60px 50px;
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 0 auto 100px auto;
+}
+
+.maintitle {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.item {
+  width: 100%;
+  height: 168px;
+  padding: 20px 0;
+
+  font-weight: bold;
+  font-size: 10pt;
+  font-family: 'NanumSquare';
+  /* background-color: aquamarine; */
+}
+
+.item:not(:last-of-type) {
+  border-bottom: 1px solid rgb(234, 234, 234);
+}
+
+.maintitle > p:first-child {
+  font-size: 12pt;
+}
+
+.maintitle > p:last-child {
+  font-size: 10pt;
+}
+
+.left {
+  float: left;
+}
+
+.left > img {
+  border-radius: 3px;
+  width: 90px;
+  height: 128px;
+}
+
+.right {
+  width: 350px;
+  /* background-color: aqua; */
+  height: 128px;
+  float: left;
+  position: relative;
+  padding: 10px 20px;
+}
+
+.text1 {
+  width: 250px;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 12pt;
+  font-family: 'NanumSquare';
+  line-height: 20px;
+}
+
+.text2 {
+  width: 250px;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 10pt;
+  font-family: 'NanumSquare';
+  line-height: 15px;
+}
+
+.genrebutton {
+  width: 62px;
+  height: 25px;
+  font-size: 8pt;
+  margin: 5px;
+  background-color: #ffa939;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.genrebutton:hover {
+  background-color: #fc8906;
+}
+
+.remote {
+  margin: auto;
+  bottom: 0px;
+}
+
+.screen2 {
+  position: fixed;
+  top: 30%;
+  left: 0px;
+  right: 0px;
+  transform: translateY(-30%);
+  transform: translatex(150%);
+  padding: 20px 20px;
+  background-color: rgb(255, 255, 255);
+  width: 300px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 0 auto 100px auto;
+}
+
+.wrap2 {
+  width: 100vh;
+  height: 100vh;
+}
+
+.button {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.selected {
+  background-color: #ff4c24;
+  color: white;
+}

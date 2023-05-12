@@ -1,0 +1,145 @@
+.cast_name {
+  margin-top: 10px;
+  font-size: 18pt;
+  font-weight: bold;
+}
+.castProfile {
+  margin-left: 10px;
+  margin-top: 6px;
+  padding: 5px;
+}
+
+.profile_img_box {
+  width: 100px;
+  height: 120px;
+  border-radius: 10px;
+  border: 1px solid rgb(219, 219, 219);
+  overflow: hidden;
+  float: left;
+  position: relative;
+}
+
+.profile_img {
+  position: absolute;
+  top: -10px;
+  width: 100px;
+}
+
+.cast_title {
+  width: 800px;
+  margin-left: 115px;
+  padding-top: -10px;
+  font-family: NanumSquare;
+}
+
+.title_set {
+  font-size: 12pt;
+  margin-bottom: 0px;
+  font-family: NanumSquare;
+}
+
+.profile_box {
+  background-color: rgb(250, 250, 250);
+  border-radius: 15px;
+  /* border: 2px solid rgb(239, 239, 239); */
+  margin-bottom: 30px;
+  padding: 5px;
+  height: 150px;
+}
+
+/* 필모 */
+.wrap {
+  padding: 10px;
+  width: 100%;
+  /* background-color: rgb(250, 250, 250); */
+  /* border: 2px solid rgb(239, 239, 239); */
+  margin-bottom: 20px;
+}
+
+/* 필모타이틀 */
+.pilmo_title {
+  padding-top: 5px;
+  font-size: 12pt;
+  font-weight: bold;
+  text-align: center;
+  height: 35px;
+  border-top: 1px solid rgb(205, 205, 205);
+  border-bottom: 1px solid rgb(205, 205, 205);
+  /* background-color: yellow; */
+}
+
+.date_title {
+  width: 15%;
+  /* background-color: yellow; */
+  float: left;
+}
+
+.title_title {
+  width: 70%;
+  /* background-color: aqua; */
+  float: left;
+}
+
+.rating_title {
+  width: 15%;
+  /* background-color: rgb(203, 203, 252); */
+  float: left;
+}
+
+/* 필모 내용 */
+.pilmo {
+  padding: 5px;
+  font-size: 12pt;
+  text-align: center;
+  height: 100px;
+  border-bottom: 1px solid rgb(205, 205, 205);
+  /* background-color: yellow; */
+}
+
+.date {
+  width: 15%;
+  padding-top: 30px;
+  /* background-color: yellow; */
+  float: left;
+}
+
+.title {
+  width: 70%;
+  /* background-color: aqua; */
+  float: left;
+}
+
+.rating {
+  padding-top: 30px;
+  width: 15%;
+  /* background-color: rgb(203, 203, 252); */
+  float: left;
+}
+
+.poster {
+  width: 60px;
+  float: left;
+  margin-top: 0px;
+  margin-left: 20px;
+}
+
+.poster_img {
+  width: 60px;
+  height: 90px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.movie_name {
+  text-align: left;
+  padding-top: 30px;
+  padding-left: 120px;
+}
+
+.more_button {
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  color: #fc8080;
+  font-weight: bold;
+}
