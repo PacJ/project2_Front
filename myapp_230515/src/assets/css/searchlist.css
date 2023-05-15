@@ -1,0 +1,85 @@
+* {
+  font-family: NanumSquare !important;
+}
+
+/* 배우 리스트 */
+.actor-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.profile-img-box {
+  min-width: 20%;
+  flex-grow: 1;
+}
+
+.profile-img-box img {
+  border-radius: 10px;
+}
+
+.more_button {
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+  color: #fc8080;
+  font-weight: bold;
+}
+
+.director-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.director-img-box {
+  min-width: 20%;
+  flex-grow: 1;
+}
+
+.director-img-box img {
+  border-radius: 10px;
+}
+
+
+
+.slider {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  position: relative;
+}
+
+.slide-movie {
+  width: 20%; /* Width of each movie in the slider */
+  margin: 0 10px;
+}
+
+.slide-movie img {
+  max-width: 100%;
+  max-height: 290px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  background-color: transparent;
+  transform: translateY(-50%);
+}
+
+.prev-button {
+  left: 0px;
+}
+
+.next-button {
+  right: 0px;
+}
+
+.prev_button img,
+.next_button img {
+  width: 50px;
+}

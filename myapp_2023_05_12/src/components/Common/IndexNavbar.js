@@ -13,11 +13,13 @@ import {
   Container,
 } from "reactstrap";
 import ComboBox from "./AutoComplete";
+import { Link } from "react-router-dom";
 
-function IndexNavbar({ transparent }) {
+function IndexNavbar({ transparent, isAdmin }) {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const initialRender = React.useRef(true);
+  const [admin, setAdmin] = useState(false);
 
   // 검색어 입력
   const [query, setQuery] = useState("");
@@ -47,7 +49,9 @@ function IndexNavbar({ transparent }) {
   React.useEffect(() => {
     updateNavbarColor();
     initialRender.current = false;
-
+    if (isAdmin) {
+      setAdmin(true);
+    }
     window.addEventListener("scroll", updateNavbarColor);
 
     return function cleanup() {
@@ -77,89 +81,194 @@ function IndexNavbar({ transparent }) {
           navbar
           isOpen={navbarCollapse}
         >
-          <Nav navbar>
-            {/* 네비 버튼 */}
-            {/* <NavLink href="/search">[검색]</NavLink> */}
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {/* 자동완성 입력란! */}
-              <ComboBox
+          {!admin && (
+            <Nav navbar>
+              {/* 네비 버튼 */}
+              {/* <NavLink href="/search">[검색]</NavLink> */}
+              <div
                 style={{
-                  height: "20px !important",
-                  marginTop: "0px",
-                  marginRight: "10px",
-                  backgroundColor: "black",
-                  opacity: "0.7",
-                  color: "white",
-                  borderRadius: "5px",
-                  border: "none",
-                  padding: "10px 10px",
-                }}
-                placeholder="검색어를 입력하세요..."
-                // 검색값 변동시 query값 변동
-                query={query}
-                onQueryChange={handleInputChange}
-              />
-              <NavLink
-                // 검색 경로
-                href={`/search/${encodeURIComponent(query)}`}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  right: "3%",
-                  transform: "translateY(-50%)",
-                  backgroundColor: "transparent",
-                  border: "none",
-                  cursor: "pointer",
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <img
-                  src={require("assets/img/search.png")}
-                  alt="검색 버튼"
+                {/* 자동완성 입력란! */}
+                <ComboBox
                   style={{
-                    width: "17px",
-                    height: "17px",
-                    filter: "invert(50%)",
-                    marginLeft: "10px",
+                    height: "20px !important",
+                    marginTop: "0px",
+                    marginRight: "10px",
+                    backgroundColor: "black",
+                    opacity: "0.7",
+                    color: "white",
+                    borderRadius: "5px",
+                    border: "none",
+                    padding: "10px 10px",
                   }}
+                  placeholder="검색어를 입력하세요..."
+                  // 검색값 변동시 query값 변동
+                  query={query}
+                  onQueryChange={handleInputChange}
                 />
-              </NavLink>
-            </div>
-            {localStorage.getItem("member_id") !== null ? (
-              <>
+                <NavLink
+                  // 검색 경로
+                  href={`/search/${encodeURIComponent(query)}`}
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    right: "3%",
+                    transform: "translateY(-50%)",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  <img
+                    src={require("assets/img/search.png")}
+                    alt="검색 버튼"
+                    style={{
+                      width: "17px",
+                      height: "17px",
+                      filter: "invert(50%)",
+                      marginLeft: "10px",
+                    }}
+                  />
+                </NavLink>
+              </div>
+              {localStorage.getItem("member_id") !== null ? (
+                <>
+                  <NavItem>
+                    <NavLink
+                      href="/profile"
+                      style={{
+                        marginRight: 10,
+                        marginLeft: 10,
+                        fontSize: "11pt",
+                      }}
+                    >
+                      {`${localStorage.getItem("nickname")} 님의 마이페이지`}
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <Button
+                      className="btn-round"
+                      style={{ borderRadius: 3 }}
+                      color="danger"
+                      href="/logout"
+                    >
+                      LOGOUT
+                    </Button>
+                  </NavItem>
+                </>
+              ) : (
                 <NavItem>
-                  <NavLink href={`http://localhost:3000/profile/${localStorage.getItem("member_id")}`} style={{ marginRight: 8, marginLeft: 10, fontSize: '11pt'}}>
-                    {`${localStorage.getItem("nickname")} 님의 마이페이지`}
-                  </NavLink>
+                  <Button
+                    className="btn-round"
+                    style={{ borderRadius: 3, marginLeft: 20 }}
+                    color="danger"
+                    href="/login"
+                  >
+                    LOGIN
+                  </Button>
+                </NavItem>
+              )}
+            </Nav>
+          )}
+          {admin && (
+            <Nav navbar>
+              {/* 네비 버튼 */}
+              {/* <NavLink href="/search">[검색]</NavLink> */}
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {/* 자동완성 입력란! */}
+                <NavItem>
+                  <Button
+                    className="btn-round"
+                    style={{ borderRadius: 3, marginLeft: 10 }}
+                    color="#212529"
+                    href="/adminpage"
+                  >
+                    댓글 관리
+                  </Button>
                 </NavItem>
                 <NavItem>
                   <Button
                     className="btn-round"
-                    style={{ borderRadius: 3, backgroundColor:'#e75757' }}
-                    href="/logout"
+                    style={{ borderRadius: 3, marginLeft: 10 }}
+                    color="#212529"
+                    href="/admineditinfo"
                   >
-                    LOGOUT
+                    관리자 정보 수정
                   </Button>
                 </NavItem>
-              </>
-            ) : (
-              <NavItem>
-                <Button
-                  className="btn-round"
-                  style={{ borderRadius: 3, marginLeft: 20, backgroundColor:'#e75757' }}
-                  href="/login"
-                >
-                  LOGIN
-                </Button>
-              </NavItem>
-            )}
-          </Nav>
+                <NavItem>
+                  <Button
+                    className="btn-round"
+                    style={{ borderRadius: 3, marginLeft: 10 }}
+                    color="#212529"
+                    href="/adminnotice"
+                  >
+                    공지사항작성
+                  </Button>
+                </NavItem>
+                <NavItem>
+                  <Button
+                    className="btn-round"
+                    style={{ borderRadius: 3, marginLeft: 10 }}
+                    color="#212529"
+                    href="/admineditnotice"
+                  >
+                    공지사항관리
+                  </Button>
+                </NavItem>
+              </div>
+              {localStorage.getItem("adminId") !== null ? (
+                <>
+                  <NavItem>
+                    <NavLink
+                      href="/profile"
+                      style={{
+                        marginRight: 10,
+                        marginLeft: 10,
+                        fontSize: "11pt",
+                      }}
+                    >
+                      {` 환영합니다. ${localStorage.getItem(
+                        "adminName"
+                      )} 관리자님`}
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <Button
+                      className="btn-round"
+                      style={{ borderRadius: 3 }}
+                      color="danger"
+                      href="/logout"
+                    >
+                      LOGOUT
+                    </Button>
+                  </NavItem>
+                </>
+              ) : (
+                <NavItem>
+                  <Button
+                    className="btn-round"
+                    style={{ borderRadius: 3, marginLeft: 20 }}
+                    color="danger"
+                    href="/login"
+                  >
+                    LOGIN
+                  </Button>
+                </NavItem>
+              )}
+            </Nav>
+          )}
         </Collapse>
       </Container>
     </Navbar>
