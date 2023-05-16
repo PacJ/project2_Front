@@ -64,44 +64,45 @@ def userrecommenddef(given_user):
         recomm_movie_list = pred_df.loc[userId, unseen_list].sort_values(ascending=False)[
             :top_n]
         return recomm_movie_list
-    # # 행렬 분해를 이용한 잠재 요인 협업 필터링 ??
-    # 사용 안할 수 도 있음
-    # def get_rmse(R, P, Q, non_zeros):
-    #     error = 0
-    #     full_pred_matrix = np.dot(P, Q.T)
-    #     x_non_zero_ind = [non_zero[0] for non_zero in non_zeros]
-    #     y_non_zero_ind = [non_zero[1] for non_zero in non_zeros]
-    #     R_non_zero_ind = R[x_non_zero_ind, y_non_zero_ind]
-    #     full_pred_matrix_non_zeros = full_pred_matrix[x_non_zero_ind,
-    #                                                   y_non_zero_ind]
-    #     mse = mean_squared_error(R_non_zero_ind, full_pred_matrix_non_zeros)
-    #     rmse = np.sqrt(mse
-    #                    )
-    #     return rmse
+    # -----------------------------------------
+    # 데이터베이스 연결 정보
+    conn = cx_Oracle.connect('pj2/a1234@localhost:1521/xe')
 
-    movies = pd.read_csv('movie_fi.csv')
-    ratings = pd.read_csv('python/ratings_small7_new.csv')
+    # 출력 옵션 설정
+    pd.set_option('display.max_columns', None)  # 모든 열 출력
+    pd.set_option('display.max_rows', None)  # 모든 행 출력
 
-    ratings = ratings[['userId', 'movieId', 'rating']]
+    # 연결된 데이터베이스의 버전 확인
+    print(conn.version)
+
+    # SQL 쿼리 실행
+    cursor = conn.cursor()
+    cursor.execute(
+        'SELECT * FROM MOVIE')
+    # print(cursor.description)
+
+    # 마지막으로 후기 남긴 영화(movie_id)
+    cursor2 = conn.cursor()
+    cursor2.execute(
+        'SELECT * FROM RATING')
+
+    # 데이터프레임으로 변환
+    col_names = [row[0] for row in cursor.description]
+    col2_names = [row[0] for row in cursor2.description]
+    movieList = pd.DataFrame(cursor.fetchall(), columns=col_names)
+    rawratings = pd.DataFrame(cursor2.fetchall(), columns=col2_names)
+    cursor.close()
+    conn.close()
+    ratings = rawratings[['MEMBER_ID', 'MOVIE_ID', 'RATING']]
 
     ratings_matrix = ratings.pivot_table(
-        'rating', index='userId', columns='movieId')
+        'RATING', index='MEMBER_ID', columns='MOVIE_ID')
 
     ratings_matrix = ratings_matrix.fillna(0)
-    # movies DataFrame에서 movieId와 title 컬럼만 추출합니다.
-    movie_to_idx = {
-        row['movie_id']: row['title'] for idx, row in movies[['movie_id', 'title']].iterrows()
-    }
 
-    # ratings_matrix의 컬럼을 title로 변경합니다.
-    # ratings_matrix.columns = [movie_to_idx.get(
-    #     movie_id) for movie_id in ratings_matrix.columns]
+    print(ratings_matrix.head(5))
+    # 연결 종료
 
-    # print('############################################')
-    # print(ratings_matrix.head(5))
-
-    # 영화간의 유사도 산출
-    # print('############################################')
     ratings_matrix_T = ratings_matrix.transpose()
     # print(ratings_matrix_T.head)
 
@@ -117,7 +118,7 @@ def userrecommenddef(given_user):
         ratings_matrix.values, item_sim_df.values)
     ratings_pred_matrix = pd.DataFrame(
         data=ratings_pred, index=ratings_matrix.index, columns=ratings_matrix.columns)
-    # print(ratings_pred_matrix.head(5))
+    print(ratings_pred_matrix.head(5))
 
     # print("아이템기반 최근접 이웃 ", get_mse(ratings_pred, ratings_matrix.values))
     # 유저아이디가 9인 사용자가 평점을 준 영화들을 평점이 높은 순서대로
@@ -132,22 +133,45 @@ def userrecommenddef(given_user):
     recomm_movies = pd.DataFrame(
         data=recomm_movies.values, index=recomm_movies.index, columns=['pred_score'])
     recomm_movies_list = recomm_movies.index
+    print(recomm_movies_list)
     return recomm_movies_list
 
 
 def titlesimdef(given_id):
 
-    movies = pd.read_csv('movie_fi.csv')
-    ratings = pd.read_csv('python/ratings_small7_new.csv')
+    # -----------------------------------------
+    # 데이터베이스 연결 정보
+    conn = cx_Oracle.connect('pj2/a1234@localhost:1521/xe')
 
-    # print('############################################')
-    # print(movies.shape)  # (9978,15)    9978개의 데이터와 15개의 컬럼을 갖는 행렬로 나옴
-    # print(ratings.shape)  # (100004,4)
+    # 출력 옵션 설정
+    pd.set_option('display.max_columns', None)  # 모든 열 출력
+    pd.set_option('display.max_rows', None)  # 모든 행 출력
 
-    ratings = ratings[['userId', 'movieId', 'rating']]
+    # 연결된 데이터베이스의 버전 확인
+    print(conn.version)
+
+    # SQL 쿼리 실행
+    cursor = conn.cursor()
+    cursor.execute(
+        'SELECT * FROM MOVIE')
+    # print(cursor.description)
+
+    # 마지막으로 후기 남긴 영화(movie_id)
+    cursor2 = conn.cursor()
+    cursor2.execute(
+        'SELECT * FROM RATING')
+
+    # 데이터프레임으로 변환
+    col_names = [row[0] for row in cursor.description]
+    col2_names = [row[0] for row in cursor2.description]
+    movieList = pd.DataFrame(cursor.fetchall(), columns=col_names)
+    rawratings = pd.DataFrame(cursor2.fetchall(), columns=col2_names)
+    cursor.close()
+    conn.close()
+    ratings = rawratings[['MEMBER_ID', 'MOVIE_ID', 'RATING']]
 
     ratings_matrix = ratings.pivot_table(
-        'rating', index='userId', columns='movieId')
+        'RATING', index='MEMBER_ID', columns='MOVIE_ID')
 
     ratings_matrix = ratings_matrix.fillna(0)
     # # movies DataFrame에서 movieId와 title 컬럼만 추출합니다.
@@ -181,9 +205,10 @@ def titlesimdef(given_id):
 
 
 def get_recommendations(given_id):
+
     def find_sim_movie_ver1(df, sorted_ind, movie_id, top_n=10):    # 코사인 유사도 산출 함수
         # df 에서 title 컬럼값이 title_name 인 df를 추출
-        title_movie = df[df['movie_id'] == movie_id]
+        title_movie = df[df['MOVIE_ID'] == movie_id]
 
         # index 를 ndarray로 추출하고, 유사도 순으로 10개의 index 추출
         title_index = title_movie.index.values
@@ -194,28 +219,56 @@ def get_recommendations(given_id):
         return df.iloc[similar_indexes]
 
     def weighted_vote_average(record):  # 가중평균 계산 함수
-        v = record['tmdb_vote_cnt']
-        R = record['tmdb_vote_sum']
+        v = record['TMDB_VOTE_CNT']
+        R = record['TMDB_VOTE_SUM']
 
         return ((v/(v+m))*R)+((m/(m+v))*C)
 
-    movies_df = pd.read_csv('movie_fi.csv', encoding='utf-8')
-    genre_df = pd.read_csv(
-        'merged_genre.csv', encoding='utf-8')
+        # 데이터베이스 연결 정보
+    conn = cx_Oracle.connect('pj2/a1234@localhost:1521/xe')
 
-    genre_df['genre_dict'] = genre_df[['genre_id', 'genre_name']].apply(
+    # 출력 옵션 설정
+    pd.set_option('display.max_columns', None)  # 모든 열 출력
+    pd.set_option('display.max_rows', None)  # 모든 행 출력
+
+    # 연결된 데이터베이스의 버전 확인
+    print(conn.version)
+
+    # SQL 쿼리 실행
+    cursor = conn.cursor()
+    cursor.execute(
+        'SELECT * FROM MOVIE')
+    # print(cursor.description)
+
+    # 마지막으로 후기 남긴 영화(movie_id)
+    cursor2 = conn.cursor()
+    cursor2.execute(
+        'SELECT  movie_genre.movie_id, movie_genre.genre_id, genre.name FROM movie_genre JOIN genre ON movie_genre.genre_id=genre.genre_id')
+
+    # 데이터프레임으로 변환
+    col_names = [row[0] for row in cursor.description]
+    col2_names = [row[0] for row in cursor2.description]
+    movies_df = pd.DataFrame(cursor.fetchall(), columns=col_names)
+    genre_df = pd.DataFrame(cursor2.fetchall(), columns=col2_names)
+    print(movies_df.head())
+    print(genre_df.head())
+    cursor.close()
+    conn.close()
+
+    genre_df['genre_dict'] = genre_df[['GENRE_ID', 'NAME']].apply(
         lambda x: {'id': x[0], 'name': x[1]}, axis=1)
-    genre_dict_df = genre_df[['genre_id', 'genre_dict']]
-    # 장르들을 하나의 리스트로 묶는다.
-    genre_dict = genre_dict_df.set_index('genre_id').to_dict()['genre_dict']
 
-    genre_df['genre_dict'] = genre_df['genre_id'].apply(
+    genre_dict_df = genre_df[['GENRE_ID', 'genre_dict']]
+    # 장르들을 하나의 리스트로 묶는다.
+    genre_dict = genre_dict_df.set_index('GENRE_ID').to_dict()['genre_dict']
+
+    genre_df['genre_dict'] = genre_df['GENRE_ID'].apply(
         lambda x: genre_dict.get(x))
     genre_df = genre_df.groupby(
-        'movie_id')['genre_dict'].apply(list).reset_index()
-
+        'MOVIE_ID')['genre_dict'].apply(list).reset_index()
+    print(genre_df.head)
     # 장르 df 와 무비 df 를 movie_id 를 기준으로 합친다.
-    merged_df = pd.merge(movies_df, genre_df, on='movie_id', how='left')
+    merged_df = pd.merge(movies_df, genre_df, on='MOVIE_ID', how='left')
 
     merged_df['genre_dict'] = merged_df['genre_dict'].apply(
         lambda x: [y['name'] for y in x] if isinstance(x, list) else [])
@@ -245,7 +298,7 @@ def get_recommendations(given_id):
     )[:, ::-1]  # [:,::-1] 2차원 배열의 역순정렬
     genre_sim_sorted_ind[::-1]
 
-    title_movie = merged_df[merged_df['movie_id'] == given_id]
+    title_movie = merged_df[merged_df['MOVIE_ID'] == given_id]
 
     # 갓파더의 인덱스를 변수로 저장하고,
     title_index = title_movie.index.values
@@ -256,15 +309,15 @@ def get_recommendations(given_id):
     # 1차원 array로 변경
     merged_df.iloc[similar_indexes].head(1)
 
-    C = merged_df['tmdb_vote_sum'].mean()
-    m = merged_df['tmdb_vote_cnt'].quantile(0.6)
+    C = merged_df['TMDB_VOTE_SUM'].mean()
+    m = merged_df['TMDB_VOTE_CNT'].quantile(0.6)
     # print('C:', round(C, 3), 'm:', round(m, 3))
 
     #####################################################################
     # 가중치 추가
     merged_df['weighted_vote'] = merged_df.apply(weighted_vote_average, axis=1)
 
-    merged_df[['weighted_vote', 'title', 'tmdb_vote_sum', 'tmdb_vote_cnt',
+    merged_df[['weighted_vote', 'TITLE', 'TMDB_VOTE_SUM', 'TMDB_VOTE_CNT',
                'genre_dict']].sort_values('weighted_vote', ascending=False)[:10]
     # print('가중치 반영한 merged_df========================================================')
     # print(merged_df[['weighted_vote', 'title', 'vote_average', 'vote_count',
@@ -273,7 +326,7 @@ def get_recommendations(given_id):
     #####################################################################
     similar_movies = find_sim_movie_ver1(
         merged_df, genre_sim_sorted_ind, given_id, 20)   # 입력할 영화
-    similar_movies[['title', 'tmdb_vote_sum', 'genre_dict', 'tmdb_vote_cnt']
+    similar_movies[['TITLE', 'TMDB_VOTE_SUM', 'genre_dict', 'TMDB_VOTE_CNT']
                    ].head(1)
     # print('similar========================================================')
     # print(similar_movies['title'])
@@ -323,7 +376,7 @@ def recommend_movie():
     print(movie_id)
 # -----------------------------------------
     # 데이터베이스 연결 정보
-    conn = cx_Oracle.connect('pj2/a1234@localhost:1521/xe')
+    conn = cx_Oracle.connect('pjw/a1234@localhost:1521/xe')
 
     # 출력 옵션 설정
     pd.set_option('display.max_columns', None)  # 모든 열 출력
@@ -340,7 +393,8 @@ def recommend_movie():
 
     # 마지막으로 후기 남긴 영화(movie_id)
     cursor2 = conn.cursor()
-    cursor2.execute('SELECT MOVIE_ID, TITLE, OVERVIEW FROM MOVIE WHERE MOVIE_ID = :movie_id', movie_id=movie_id)
+    cursor2.execute(
+        'SELECT MOVIE_ID, TITLE, OVERVIEW FROM MOVIE WHERE MOVIE_ID = :movie_id', movie_id=movie_id)
 
     # 데이터프레임으로 변환
     col_names = [row[0] for row in cursor.description]
@@ -388,17 +442,20 @@ def recommend_movie():
             preprocessing(okt_clean(movieList['OVERVIEW'][i])))
         # print(movieList.loc[i])
 # -----------------------------------$ FLASK_APP=<filename>.py FLASK_ENV=development flask run"
-    lastMovie.loc[0, 'OVERVIEW'] = remove_stopwords(preprocessing(okt_clean(lastMovie['OVERVIEW'][0])))
+    lastMovie.loc[0, 'OVERVIEW'] = remove_stopwords(
+        preprocessing(okt_clean(lastMovie['OVERVIEW'][0])))
     # 상관관계 분석
     # 객체생성
     tfidf = TfidfVectorizer()
-    tfidf_matrix = tfidf.fit_transform(pd.concat([movieList['OVERVIEW'], lastMovie['OVERVIEW']]))
+    tfidf_matrix = tfidf.fit_transform(
+        pd.concat([movieList['OVERVIEW'], lastMovie['OVERVIEW']]))
 
     # 코사인유사도 linear_kernel(x축, y축)
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
     idx = len(movieList)
     # movie_id를 입력하면 코사인 유사도를 통해 가장 유사도가 높은 상위 20개의 영화 목록 반환
+
     def get_recommendations(cosine_sim=cosine_sim):
 
         # 코사인 유사도 매트릭스(cosine_sim)에서 idx에 해당하는 데이터를 (idx,유사도) 형태로 출력
@@ -417,7 +474,6 @@ def recommend_movie():
         return movieList['MOVIE_ID'].iloc[[i for i in movie_indices if i < len(movieList)]].tolist()
 
     return get_recommendations()
-
 
 
 if __name__ == '__main__':

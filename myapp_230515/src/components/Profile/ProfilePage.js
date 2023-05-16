@@ -1,21 +1,27 @@
-import ProfileHeader from './ProfileHeader';
-import { useState } from 'react';
-import { ProfileAction } from 'reduxs/Actions/ProfileAction';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import ProfileList from './ProfileList';
-import style from '../../assets/css/profile.module.css';
-import EditImg from 'components/Member/EditImg';
-import EditModal from './EditModal';
-import '../../assets/css/modal.css';
-import EditImgModal from './EditImgModal';
-import RecList from './RecList';
-import Recommend from 'components/Recommend/Recommend';
-import { useParams } from 'react-router-dom';
+import ProfileHeader from "./ProfileHeader";
+import { useState } from "react";
+import { ProfileAction } from "reduxs/Actions/ProfileAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import ProfileList from "./ProfileList";
+import style from "../../assets/css/profile.module.css";
+import EditImg from "components/Member/EditImg";
+import EditModal from "./EditModal";
+import "../../assets/css/modal.css";
+import EditImgModal from "./EditImgModal";
+import Recommend from "components/Recommend/Recommend";
+import { useParams } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
+import axios from "axios";
 
 const ProfilePage = () => {
   //리스트 선언 모음
   const { member_id } = useParams();
+
+  //추가
+  const [recList, setRecList] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   //const member_id = localStorage.getItem('member_id');
   const dispatch = useDispatch();
 
@@ -26,7 +32,36 @@ const ProfilePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(ProfileAction.getProfileList(member_id));
+    //getRecommendations 호출 추가
+    getRecommendations();
   }, []);
+
+  //config 추가
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    },
+  };
+
+  // 추가. 페이지 들어오자마자 가져오기.
+  const getRecommendations = () => {
+    if (localStorage.getItem("member_id") === member_id) {
+      setLoading(true);
+      axios
+        .get(`http://localhost:8090/recommend/${member_id}`, config)
+        .then((response) => {
+          console.log("호출됨!");
+          console.log(response.data);
+          setRecList(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  };
 
   const [editShow, setEditShow] = useState(false);
   const handleEditClose = () => setEditShow(false);
@@ -38,15 +73,26 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className='d-flex flex-column min-vh-100'>
-        <div className='section'>
+      <div className="d-flex flex-column min-vh-100">
+        <div className="section">
           <div className={style.wrap}>
-            <ProfileHeader handleEditShow={handleEditShow} handleEditImgShow={handleEditImgShow} memberInfo={memberInfo}/>
-            <EditModal isOpen={editShow} onRequestClose={handleEditClose} memberInfo={memberInfo}/>
-            <EditImgModal isOpen={editImgShow} onRequestClose={handleEditImgClose} memberInfo={memberInfo}/>
-          <div style={{ margin: 'auto' }}>
-          </div>
-            <div style={{ height: '50px' }}></div>
+            <ProfileHeader
+              handleEditShow={handleEditShow}
+              handleEditImgShow={handleEditImgShow}
+              memberInfo={memberInfo}
+            />
+            <EditModal
+              isOpen={editShow}
+              onRequestClose={handleEditClose}
+              memberInfo={memberInfo}
+            />
+            <EditImgModal
+              isOpen={editImgShow}
+              onRequestClose={handleEditImgClose}
+              memberInfo={memberInfo}
+            />
+            <div style={{ margin: "auto" }}></div>
+            <div style={{ height: "50px" }}></div>
             {memberInfo && memberInfo.visibility === 1 ? (
               ratingList && ratingList.length > 0 ? (
                 <p
@@ -92,7 +138,7 @@ const ProfilePage = () => {
               </p>
             )}
             <ProfileList movies={ratingList} />
-            <div style={{ height: '50px' }}></div>
+            <div style={{ height: "50px" }}></div>
             {memberInfo && memberInfo.visibility === 1 ? (
               wishList && wishList.length > 0 ? (
                 // true면 랜더링할 html
@@ -140,8 +186,37 @@ const ProfilePage = () => {
               </p>
             )}
             <ProfileList movies={wishList} />
-            <div style={{ height: '50px' }}></div>
-            <RecList />
+
+            {/* 추가 */}
+            <div style={{ height: "50px" }}></div>
+            {loading && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "100px",
+                }}
+              >
+                {" "}
+                <p
+                  style={{
+                    fontSize: "15pt",
+                    padding: "10px",
+                    fontFamily: "NanumSquare",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {localStorage.getItem("nickname")}님을 위한 추천 영화를
+                  불러오는중입니다.
+                </p>
+                <PulseLoader color="#e75757" size={40} />
+              </div>
+            )}
+            {localStorage.getItem("member_id") === member_id
+              ? recList &&
+                recList.length > 0 && <ProfileList movies={recList} />
+              : null}
           </div>
         </div>
       </div>
