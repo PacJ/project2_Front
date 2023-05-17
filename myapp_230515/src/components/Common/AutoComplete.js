@@ -68,7 +68,7 @@ export default function ComboBox({ onQueryChange }) {
       autoHighlight
       renderGroup={(params, idx) => (
         <li key={params.key}>
-          <GroupHeader>인기 영화</GroupHeader>
+          <GroupHeader>{query.length === 0 ? "인기 영화" : ""}</GroupHeader>
           <GroupItems>
             {idx}
             {params.children}

@@ -29,6 +29,9 @@ const ProfilePage = () => {
   const ratingList = useSelector((state) => state.profile.ratingList);
   const memberInfo = useSelector((state) => state.profile.memberInfo);
 
+  console.log(
+    ratingList && ratingList[ratingList.length - 1].title + "와 비슷한 작품"
+  );
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(ProfileAction.getProfileList(member_id));
@@ -44,7 +47,7 @@ const ProfilePage = () => {
     },
   };
 
-  // 추가. 페이지 들어오자마자 가져오기.
+  // 추가.
   const getRecommendations = () => {
     if (localStorage.getItem("member_id") === member_id) {
       setLoading(true);
@@ -199,17 +202,21 @@ const ProfilePage = () => {
                 }}
               >
                 {" "}
-                <p
-                  style={{
-                    fontSize: "15pt",
-                    padding: "10px",
-                    fontFamily: "NanumSquare",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {localStorage.getItem("nickname")}님을 위한 추천 영화를
-                  불러오는중입니다.
-                </p>
+                <div>
+                  <p
+                    style={{
+                      fontSize: "15pt",
+                      padding: "10px",
+                      fontFamily: "NanumSquare",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <div>{localStorage.getItem("nickname")}</div>
+                    님을 위한 추천 영화를 불러오는중입니다.
+                  </p>
+                </div>
+                <br></br>
+                <br></br>
                 <PulseLoader color="#e75757" size={40} />
               </div>
             )}

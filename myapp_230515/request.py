@@ -201,8 +201,6 @@ def titlesimdef(given_id):
     # 제목을 코사인분석해서 비슷한걸 가져오는 것
     return item_sim_df[given_id].sort_values(ascending=False)[:10].index.tolist()
 
-#
-
 
 def get_recommendations(given_id):
 
@@ -389,7 +387,6 @@ def recommend_movie():
     cursor = conn.cursor()
     cursor.execute(
         'SELECT MOVIE_ID, TITLE, OVERVIEW FROM (SELECT MOVIE_ID, TITLE, OVERVIEW, POPULARITY FROM MOVIE ORDER BY POPULARITY DESC) WHERE ROWNUM <= 2000')
-    # print(cursor.description)
 
     # 마지막으로 후기 남긴 영화(movie_id)
     cursor2 = conn.cursor()
@@ -400,7 +397,6 @@ def recommend_movie():
     col_names = [row[0] for row in cursor.description]
     movieList = pd.DataFrame(cursor.fetchall(), columns=col_names)
     lastMovie = pd.DataFrame(cursor2.fetchall(), columns=col_names)
-    print(lastMovie)
 
     # 연결 종료
     cursor.close()
@@ -408,6 +404,9 @@ def recommend_movie():
 
     movieList = movieList.dropna()
 
+
+
+    print(lastMovie)
 # -------------------------------------------
     # 정규표현식
     def preprocessing(text):
@@ -440,11 +439,10 @@ def recommend_movie():
     for i in range(len(movieList)):
         movieList.loc[i, 'OVERVIEW'] = remove_stopwords(
             preprocessing(okt_clean(movieList['OVERVIEW'][i])))
-        # print(movieList.loc[i])
-# -----------------------------------$ FLASK_APP=<filename>.py FLASK_ENV=development flask run"
+        
     lastMovie.loc[0, 'OVERVIEW'] = remove_stopwords(
         preprocessing(okt_clean(lastMovie['OVERVIEW'][0])))
-    # 상관관계 분석
+    
     # 객체생성
     tfidf = TfidfVectorizer()
     tfidf_matrix = tfidf.fit_transform(
@@ -453,10 +451,10 @@ def recommend_movie():
     # 코사인유사도 linear_kernel(x축, y축)
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-    idx = len(movieList)
-    # movie_id를 입력하면 코사인 유사도를 통해 가장 유사도가 높은 상위 20개의 영화 목록 반환
 
+    # 코사인 유사도가 가장 높은 10개의 영화 목록 반환
     def get_recommendations(cosine_sim=cosine_sim):
+        idx = len(movieList)
 
         # 코사인 유사도 매트릭스(cosine_sim)에서 idx에 해당하는 데이터를 (idx,유사도) 형태로 출력
         sim_scores = list(enumerate(cosine_sim[idx]))

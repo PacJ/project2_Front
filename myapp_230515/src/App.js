@@ -80,10 +80,10 @@ function App() {
           path="/cast/:profileType/:id"
           element={<PrivateRoute isAuth={false} RouteComponent={CastProfile} />}
         />
-        <Route
+        {/* <Route
           path="/recommend/:member_id"
           element={<PrivateRoute isAuth={false} RouteComponent={RecList} />}
-        />
+        /> */}
 
         <Route
           path="/notice"
