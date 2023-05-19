@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'NanumSquare';
+  src: url('assets/fonts/NanumSquareR.ttf') format('truetype');
+  /* You can also include other font formats (.woff, .woff2) for better cross-browser support */
+  /* Add additional src declarations for other font weights or styles if needed */
+  font-weight: 200;
+  font-style: normal;
+}
+
+.main_title {
+  font-size: 15pt;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.red {
+  color: #e75757;
+}
+
+.main_line {
+  width: 100%;
+  border-bottom: 2px solid rgb(147, 147, 147);
+  margin-bottom: 50px;
+}
+
+.notice_set {
+  height: 18px;
+  cursor: pointer;
+}
+
+.line {
+  width: 100%;
+  border-bottom: 1px solid rgb(201, 201, 201);
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.title {
+  float: left;
+  font-size: 12pt;
+  margin-left: 10px;
+}
+
+.date {
+  margin-right: 10px;
+  float: right;
+}
+
+.text {
+  padding: 25px;
+  margin-top: 15px;
+  line-height: 25px;
+  background-color: rgb(249, 249, 249);
+}

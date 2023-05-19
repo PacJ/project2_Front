@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'NanumSquare';
+  src: url('assets/fonts/NanumSquareR.ttf') format('truetype');
+  /* You can also include other font formats (.woff, .woff2) for better cross-browser support */
+  /* Add additional src declarations for other font weights or styles if needed */
+  font-weight: 200;
+  font-style: normal;
+}

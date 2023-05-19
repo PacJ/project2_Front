@@ -1,0 +1,97 @@
+.genretype {
+  padding-top: 5px;
+  font-size: 18px;
+
+  font-family: NanumSquare;
+}
+
+/*
+.genre-set {
+  text-align: center;
+  width: 240px;
+  height: 360px;
+  background-color: #343a40;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+}
+*/
+
+.item img {
+  width: 180px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.item input[type='checkbox'] {
+  display: none;
+}
+
+.item input[type='checkbox'] + label .genre-set {
+  text-align: center;
+  width: 200px;
+  height: 310px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+.item input[type='checkbox']:checked + label .genre-set {
+  text-align: center;
+  width: 200px;
+  height: 310px;
+  background-color: #e75757;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  /* border: 1px solid #e75757; */
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+.item input[type='checkbox']:hover + label .genre-set {
+  text-align: center;
+  width: 200px;
+  height: 310px;
+  background-color: #e75757;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.agree .all_agree:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+
+.submitbar {
+  height: 40px;
+  position: fixed;
+  top: 88px;
+  background-color: white;
+  width: 100%;
+  text-align: center;
+}
+
+.submitbar p {
+  padding-top: 10px;
+}
+
+/* 검색css */
+#free-solo-2-demo {
+  color: white;
+}
+
+#free-solo-2-demo-label {
+  color: white;
+}
+
+.MuiAutocomplete-root {
+  border-radius: 3px;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.5;
+  margin: 1px;
+}

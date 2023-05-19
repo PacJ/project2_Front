@@ -1,0 +1,22 @@
+1. 리액트 src 폴더 있는 경로에 csv, request.py, requirements.txt 파일 있는지 확인
+
+2. vscode 터미널 새로 하나 열고 pip 입력 > 오류 나면 파이썬 설치 > 환경변수 등록
+파이썬 공홈 다운로드 > 최신버전 다운로드 > path 체크 있으면 체크
+고급 시스템 속성 > 환경 변수 > path 위아래 둘다 > 재부팅
+C:\Users\yeommy\AppData\Local\Programs\Python\Python311\Scripts
+
+3. 다시 vscode 터미널
+pip install --upgrade pip
+pip install -r requirements.txt
+
+4. 실행 중 oracle 어쩌구 오류나면 C++ 다운받아야함
+https://visualstudio.microsoft.com/ko/visual-cpp-build-tools/
+setup 실행 중간에 C++ 체크 후 설치
+
+5. 다시 vscode 터미널
+pip install -r requirements.txt
+python request.py
+flask run
+
+
+

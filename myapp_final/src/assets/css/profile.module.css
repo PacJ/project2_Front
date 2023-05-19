@@ -1,0 +1,174 @@
+.wrap {
+  margin: auto;
+  width: 1100px;
+  height: 100%;
+
+  /* background-color: aqua; */
+}
+
+.img_set {
+  width: 1100px;
+  overflow: hidden;
+  height: 260px;
+  /* background-color: yellow; */
+  margin: auto;
+}
+
+.list_title {
+  font-family: NanumSquare;
+  margin-left: 10px;
+  font-size: 13pt;
+  margin-bottom: 10px;
+  float: left;
+}
+
+.favorite_wrap {
+  top: 380px;
+  position: absolute;
+  margin: auto;
+  width: 1100px;
+  height: 350px;
+  background-size: 70%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-image: url('assets/img/ticket2.png');
+  border-radius: 15px;
+}
+
+.app {
+  top: 60px;
+  left: 687px;
+  width: 480px;
+  height: 300px;
+  /* background-color: yellow; */
+  position: absolute;
+}
+
+.poster > img {
+  margin: 30px;
+  width: 120px;
+  border-radius: 5px;
+}
+
+.app2 {
+  position: absolute;
+  top: 100px;
+  left: 360px;
+  width: 330px;
+}
+
+.app2 > p {
+  margin: 5px;
+}
+
+/* 드롭다운 */
+
+.menu_title {
+  padding: 7px 10px 0px 10px;
+  height: 35px;
+  background-color: #e75757;
+  text-align: center;
+  padding-top: 7px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+}
+
+.dropdown {
+  margin-left: 10px;
+  margin-top: -6px;
+  float: left;
+}
+
+.menu_box {
+  text-align: center;
+  margin-top: 5px;
+  width: 150px;
+  position: absolute;
+  padding: 15px 5px 15px 5px;
+  border-radius: 5px;
+  background-color: white;
+  border: 2px solid rgb(228, 228, 228);
+}
+
+.option_box {
+  width: 100%;
+  height: 30px;
+}
+
+.option_box p {
+  padding-top: 5px;
+  margin: 0px 8px 0px 8px;
+}
+
+.option_hover {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.option_hover:hover {
+  background-color: rgb(244, 247, 250);
+}
+
+.open {
+  display: block;
+}
+
+/* 프로필 헤더 */
+.header_wrap {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 400px;
+  padding: 50px;
+  /* border-bottom: 50px solid #252a2f; */
+  background-color: #343a40;
+}
+
+.profile_img {
+  width: 70px;
+  height: 70px;
+}
+
+.profile {
+  margin: 100px auto 0px auto;
+  height: 70px;
+  width: max-content;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  color: white;
+  height: 50px;
+  /* background-color: aliceblue; */
+  margin-left: 80px;
+
+  padding: 10px 0px 5px 0px;
+}
+
+.nav {
+  width: max-content;
+  margin: 50px auto;
+}
+
+.button {
+  cursor: pointer;
+  color: white;
+
+  padding: 10px 30px;
+  text-align: center;
+  background-color: #ce4545;
+  /* border: 1px solid #252a2f; */
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.button:hover {
+  font-weight: bold;
+}

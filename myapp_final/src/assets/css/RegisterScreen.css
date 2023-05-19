@@ -1,0 +1,115 @@
+@font-face {
+  font-family: NanumSquare;
+  src: url(../fonts/NanumSquareR.ttf) format(truetype);
+  /* You can also include other font formats (.woff; .woff2) for better cross-browser support */
+  /* Add additional src declarations for other font weights or styles if needed */
+  font-weight: 200;
+  font-style: normal;
+}
+
+p {
+  font-family: NanumSquare;
+}
+
+.top-level {
+  position: relative;
+  width: 350px;
+  height: 580px;
+  background-color: #343a40;
+  margin: auto;
+  margin-top: 88px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.reg_sld {
+  width: 350px;
+  height: 580px;
+  float: left;
+  padding: 20px;
+  border-radius: 10;
+}
+
+.logo {
+  text-align: center;
+}
+
+.logo_agree {
+  text-align: center;
+}
+
+.logo_agree img {
+  width: 180px;
+  filter: invert(0%);
+}
+
+.logo img {
+  width: 180px;
+  filter: invert(0%);
+  margin-bottom: 30px;
+}
+
+.from-temp {
+  padding: 20px;
+}
+
+.text-input {
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  height: 35px;
+  font-family: NanumSquare;
+}
+
+.text-input-pw {
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  height: 35px;
+}
+
+.text-input-agree {
+  width: 100%;
+  height: 300px;
+  background-color: white;
+  border: 0;
+  border-radius: 3px;
+  overflow-x: scroll;
+  font-family: NanumSquare;
+}
+
+.next-page {
+  height: 40px;
+  width: 100%;
+  margin-top: 40px;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  background-color: #e75757;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  font-family: NanumSquare;
+}
+
+.next-page-last {
+  height: 40px;
+  width: 100%;
+  margin-top: 20px;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  background-color: #e75757;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  font-family: NanumSquare;
+}
+
+.text-input-pw {
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  height: 35px;
+  font-family: sans-serif !important;
+}
